@@ -5,7 +5,7 @@
 set -e
 
 # 1) Initiate config server replica set
-docker exec -i $(docker-compose ps -q configsvr1) mongosh <<'EOF'
+docker exec -i $(docker-compose ps -q configsvr1) mongosh --port 27019 <<'EOF'
 rs.initiate({
   _id: "configReplSet",
   configsvr: true,
@@ -18,7 +18,7 @@ rs.initiate({
 EOF
 
 # 2) Initiate shard1 replica set
-docker exec -i $(docker-compose ps -q shard1_primary) mongosh <<'EOF'
+docker exec -i $(docker-compose ps -q shard1_primary) mongosh --port 27018 <<'EOF'
 rs.initiate({
   _id: "shard1ReplSet",
   members: [
@@ -30,7 +30,7 @@ rs.initiate({
 EOF
 
 # 3) Initiate shard2 replica set
-docker exec -i $(docker-compose ps -q shard2_primary) mongosh <<'EOF'
+docker exec -i $(docker-compose ps -q shard2_primary) mongosh --port 27018 <<'EOF'
 rs.initiate({
   _id: "shard2ReplSet",
   members: [
