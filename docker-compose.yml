@@ -1,0 +1,157 @@
+version: "3.8"
+
+services:
+  # ───────────────────────────────
+  # 1) Config Server Replica Set
+  # ───────────────────────────────
+  configsvr1:
+    image: mongo:6.0
+    command: >
+      mongod --configsvr --replSet configReplSet --port 27019
+    volumes:
+      - ./data/configsvr1:/data/db
+    networks:
+      - mongo-cluster
+
+  configsvr2:
+    image: mongo:6.0
+    command: >
+      mongod --configsvr --replSet configReplSet --port 27019
+    volumes:
+      - ./data/configsvr2:/data/db
+    networks:
+      - mongo-cluster
+
+  configsvr3:
+    image: mongo:6.0
+    command: >
+      mongod --configsvr --replSet configReplSet --port 27019
+    volumes:
+      - ./data/configsvr3:/data/db
+    networks:
+      - mongo-cluster
+
+  # ───────────────────────────────
+  # 2) Shard 1 Replica Set
+  # ───────────────────────────────
+  shard1_primary:
+    image: mongo:6.0
+    command: >
+      mongod --shardsvr --replSet shard1ReplSet --port 27018
+    volumes:
+      - ./data/shard1_primary:/data/db
+    networks:
+      - mongo-cluster
+
+  shard1_secondary1:
+    image: mongo:6.0
+    command: >
+      mongod --shardsvr --replSet shard1ReplSet --port 27018
+    volumes:
+      - ./data/shard1_secondary1:/data/db
+    networks:
+      - mongo-cluster
+
+  shard1_secondary2:
+    image: mongo:6.0
+    command: >
+      mongod --shardsvr --replSet shard1ReplSet --port 27018
+    volumes:
+      - ./data/shard1_secondary2:/data/db
+    networks:
+      - mongo-cluster
+
+  # ───────────────────────────────
+  # 3) Shard 2 Replica Set
+  # ───────────────────────────────
+  shard2_primary:
+    image: mongo:6.0
+    command: >
+      mongod --shardsvr --replSet shard2ReplSet --port 27018
+    volumes:
+      - ./data/shard2_primary:/data/db
+    networks:
+      - mongo-cluster
+
+  shard2_secondary1:
+    image: mongo:6.0
+    command: >
+      mongod --shardsvr --replSet shard2ReplSet --port 27018
+    volumes:
+      - ./data/shard2_secondary1:/data/db
+    networks:
+      - mongo-cluster
+
+  shard2_secondary2:
+    image: mongo:6.0
+    command: >
+      mongod --shardsvr --replSet shard2ReplSet --port 27018
+    volumes:
+      - ./data/shard2_secondary2:/data/db
+    networks:
+      - mongo-cluster
+
+  # ───────────────────────────────
+  # 4) Mongos Query Router
+  # ───────────────────────────────
+  mongos:
+    image: mongo:6.0
+    command: >
+      mongos --configdb configReplSet/configsvr1:27019,configsvr2:27019,configsvr3:27019
+            --bind_ip_all --port 27017
+    ports:
+      - "27017:27017"
+    depends_on:
+      - configsvr1
+      - configsvr2
+      - configsvr3
+      - shard1_primary
+      - shard2_primary
+    networks:
+      - mongo-cluster
+
+  # ───────────────────────────────
+  # 5) Mermaid Diagram Auto-Generator
+  # ───────────────────────────────
+  diagram-generator:
+    image: python:3.10-slim
+    volumes:
+      - ./docker-compose.yml:/app/docker-compose.yml:ro
+      - ./scripts/diagram_generator.py:/app/diagram_generator.py:ro
+    working_dir: /app
+    command: ["python", "diagram_generator.py"]
+    networks:
+      - mongo-cluster
+
+  # ───────────────────────────────
+  # 6) Seed & Snapshot Container
+  # ───────────────────────────────
+  data-loader:
+    image: python:3.10-slim
+    depends_on:
+      - mongos
+    volumes:
+      - ./scripts/data_loader.py:/app/data_loader.py:ro
+    working_dir: /app
+    command: ["python", "data_loader.py"]
+    networks:
+      - mongo-cluster
+
+  # ───────────────────────────────
+  # 7) Fault-Injection & Chaos Testing
+  # ───────────────────────────────
+  chaos-engine:
+    image: alpine:latest
+    cap_add:
+      - NET_ADMIN
+    depends_on:
+      - mongos
+    volumes:
+      - ./scripts/chaos_engine.sh:/scripts/chaos_engine.sh:ro
+    command: ["sh", "/scripts/chaos_engine.sh"]
+    networks:
+      - mongo-cluster
+
+networks:
+  mongo-cluster:
+    driver: bridge
