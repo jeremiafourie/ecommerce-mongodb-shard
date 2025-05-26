@@ -1,0 +1,58 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0" version="27.0.9">
+  <diagram name="Page-1" id="j3TQUBmKUhxx4h4fPdmU">
+    <mxGraphModel dx="1273" dy="974" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JjZPdoqGvboBYEAL1ZU9-1" value="Products" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="192" y="-77" width="318" height="356" as="geometry" />
+        </mxCell>
+        <mxCell id="JjZPdoqGvboBYEAL1ZU9-2" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="JjZPdoqGvboBYEAL1ZU9-1" vertex="1">
+          <mxGeometry x="17" y="36" width="285" height="234" as="geometry" />
+        </mxCell>
+        <mxCell id="JjZPdoqGvboBYEAL1ZU9-3" value="&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;_id&quot;: ObjectId,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;sku&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;name&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;description&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;price&quot;: Number,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;categories&quot;: [ ObjectId ],&amp;nbsp; // References to Category&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;images&quot;: [ String ],&amp;nbsp; // Embedded URLs&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;inventory&quot;: { &quot;warehouseA&quot;: Number,&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;warehouseB&quot;: Number }&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="JjZPdoqGvboBYEAL1ZU9-1" vertex="1">
+          <mxGeometry x="42" y="63" width="246" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="JjZPdoqGvboBYEAL1ZU9-6" value="Embedding inventory and image URLs within the product document minimizes join‐like operations for catalog browsing (MongoDB, 2023)." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="JjZPdoqGvboBYEAL1ZU9-1" vertex="1">
+          <mxGeometry x="17" y="285" width="284" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-1" value="Orders" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="569" y="-77" width="318" height="356" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-2" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="ZZs40c9vJJJl_OgkhFLO-1" vertex="1">
+          <mxGeometry x="17" y="36" width="285" height="234" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-3" value="&lt;div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;_id&quot;: ObjectId,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;user_id&quot;: ObjectId, // Reference to Users&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;order_date&quot;: ISODate,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;items&quot;: [&amp;nbsp; // Embedded line‐items&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; { &quot;product_id&quot;: ObjectId,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;quantity&quot;: Number,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &quot;unit_price&quot;: Number }&lt;/div&gt;&lt;div&gt;&amp;nbsp; ],&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;status&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;total&quot;: Number&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ZZs40c9vJJJl_OgkhFLO-1" vertex="1">
+          <mxGeometry x="42" y="63" width="246" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-4" value="Embedding items within each order ensures atomicity for order creation and simplifies order‐history queries (Integrate.io, 2023)." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ZZs40c9vJJJl_OgkhFLO-1" vertex="1">
+          <mxGeometry x="17" y="285" width="284" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-5" value="Users" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="192" y="330" width="318" height="299" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-6" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="ZZs40c9vJJJl_OgkhFLO-5" vertex="1">
+          <mxGeometry x="17" y="36" width="285" height="184" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-7" value="&lt;div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;_id&quot;: ObjectId,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;email&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;name&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;hashed_password&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;addresses&quot;: [ ObjectId ] // References to Addresses&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ZZs40c9vJJJl_OgkhFLO-5" vertex="1">
+          <mxGeometry x="42" y="39" width="274" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-8" value="Address details are stored in a separate collection to avoid duplicating large address objects across user documents (Integrate.io, 2023)." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ZZs40c9vJJJl_OgkhFLO-5" vertex="1">
+          <mxGeometry x="17" y="236" width="284" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-9" value="Reviews" style="swimlane;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="569" y="330" width="318" height="299" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-10" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="ZZs40c9vJJJl_OgkhFLO-9" vertex="1">
+          <mxGeometry x="17" y="36" width="285" height="182" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-11" value="&lt;div&gt;&lt;div&gt;&lt;div&gt;{&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;_id&quot;: ObjectId,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;product_id&quot;: ObjectId, // Reference to Products&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;user_id&quot;: ObjectId, // Reference to Users&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;rating&quot;: Number,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;comment&quot;: String,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &quot;created_at&quot;: ISODate&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ZZs40c9vJJJl_OgkhFLO-9" vertex="1">
+          <mxGeometry x="33" y="36" width="262" height="188" as="geometry" />
+        </mxCell>
+        <mxCell id="ZZs40c9vJJJl_OgkhFLO-12" value="Reviews are maintained in a separate collection to prevent unbounded array growth in Products and to allow efficient pagination (benchANT, 2023)." style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="ZZs40c9vJJJl_OgkhFLO-9" vertex="1">
+          <mxGeometry x="17" y="238" width="284" height="54" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
