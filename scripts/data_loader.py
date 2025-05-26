@@ -5,7 +5,7 @@ from pymongo import MongoClient
 import os
 
 fake = Faker()
-client = MongoClient(os.getenv("MONGO_URI", "mongodb://mongos:27017"))
+client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
 db = client.ecommerce
 
 # Clear existing data
