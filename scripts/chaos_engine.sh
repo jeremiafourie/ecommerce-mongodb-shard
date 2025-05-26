@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Install dependencies for Ubuntu
-apt-get update && apt-get install -y iproute2 mongodb-clients
+# Install iproute2 only (mongosh is built-in)
+apt-get update && apt-get install -y iproute2
 
 while true; do
   sleep $((120 + RANDOM % 180))

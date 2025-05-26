@@ -139,7 +139,7 @@ services:
   # 7) Fault-Injection & Chaos Testing
   # ───────────────────────────────
   chaos-engine:
-    image: alpine:latest
+    image: mongo:6.0
     cap_add:
       - NET_ADMIN
     depends_on:
