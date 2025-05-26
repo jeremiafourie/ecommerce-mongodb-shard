@@ -1,13 +1,14 @@
+# scripts/data_loader.py
 #!/usr/bin/env python3
 from faker import Faker
 from pymongo import MongoClient
 import os
 
 fake = Faker()
-client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
+client = MongoClient(os.getenv("MONGO_URI", "mongodb://mongos:27017"))
 db = client.ecommerce
 
-# Clean up existing data
+# Clear existing data
 db.products.delete_many({})
 db.users.delete_many({})
 db.orders.delete_many({})
@@ -19,7 +20,7 @@ for _ in range(20):
         "sku": fake.unique.ean13(),
         "name": fake.word().title(),
         "description": fake.sentence(),
-        "price": round(fake.pyfloat(2, 2, min_value=10, max_value=500), 2),
+        "price": round(fake.pyfloat(left_digits=3, right_digits=2, min_value=10, max_value=500), 2),
         "categories": [fake.word() for _ in range(2)],
     })
 db.products.insert_many(products)
@@ -50,11 +51,10 @@ for user in db.users.find():
                 }
             ],
             "status": fake.random_element(["placed", "shipped", "delivered"]),
-            "total": 0  # will recalc
+            "total": 0
         })
-# Recalculate totals
+# Calculate totals
 for o in orders:
     o["total"] = sum(item["quantity"] * item["unit_price"] for item in o["items"])
 db.orders.insert_many(orders)
-
 print("Seed data loaded.")
