@@ -13,6 +13,7 @@ wait_for_mongos() {
 }
 
 # 1) Initiate config server replica set
+echo "⏳ Initaiting config server replica set..."
 docker exec -i "$(docker-compose ps -q configsvr1)" mongosh --port 27019 <<'EOF'
 rs.initiate({
   _id: "configReplSet",
@@ -26,6 +27,7 @@ rs.initiate({
 EOF
 
 # 2) Initiate shard1 replica set
+echo "Initiate shard1 replica set"
 docker exec -i "$(docker-compose ps -q shard1_primary)" mongosh --port 27018 <<'EOF'
 rs.initiate({
   _id: "shard1ReplSet",
@@ -38,6 +40,7 @@ rs.initiate({
 EOF
 
 # 3) Initiate shard2 replica set
+echo "Initiate shard2 replica set"
 docker exec -i "$(docker-compose ps -q shard2_primary)" mongosh --port 27018 <<'EOF'
 rs.initiate({
   _id: "shard2ReplSet",
@@ -53,6 +56,7 @@ EOF
 wait_for_mongos
 
 # 5) Add shards and enable sharding
+echo "Add shards and enable sharding"
 docker exec -i "$(docker-compose ps -q mongos)" mongosh <<'EOF'
 sh.addShard("shard1ReplSet/shard1_primary:27018,shard1_secondary1:27018,shard1_secondary2:27018");
 sh.addShard("shard2ReplSet/shard2_primary:27018,shard2_secondary1:27018,shard2_secondary2:27018");
