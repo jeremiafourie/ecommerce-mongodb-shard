@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Utility: wait until mongos is accepting connections
-wait_for_mongos() {
-  local container; container=$(docker-compose ps -q mongos)
-  echo "⏳ Waiting for mongos to be ready..."
-  until docker exec -i "$container" mongosh --quiet --host 127.0.0.1 --port 27017 \
-    --eval 'db.adminCommand({ ping: 1 })' &>/dev/null; do
+# Wait until a replica set primary is elected
+wait_for_primary() {
+  local svc=$1 port=$2 repl=$3
+  local cid; cid=$(docker-compose ps -q "$svc")
+  echo "⏳ Waiting for primary in ${repl}..."
+  until docker exec -i "$cid" mongosh --quiet --port "$port" \
+      --eval 'rs.isMaster().ismaster' | grep true >/dev/null; do
     sleep 2
   done
-  echo "✅ Mongos is up."
+  echo "✅ ${repl} primary is elected."
 }
 
-# 1) Initiate config server replica set
-echo "⏳ Initaiting config server replica set..."
+# 1) Config server RS
+echo "⏳ Initiating configReplSet..."
 docker exec -i "$(docker-compose ps -q configsvr1)" mongosh --port 27019 <<'EOF'
 rs.initiate({
   _id: "configReplSet",
@@ -25,9 +26,10 @@ rs.initiate({
   ]
 });
 EOF
+wait_for_primary configsvr1 27019 configReplSet
 
-# 2) Initiate shard1 replica set
-echo "Initiate shard1 replica set"
+# 2) Shard1 RS
+echo "⏳ Initiating shard1ReplSet..."
 docker exec -i "$(docker-compose ps -q shard1_primary)" mongosh --port 27018 <<'EOF'
 rs.initiate({
   _id: "shard1ReplSet",
@@ -38,9 +40,10 @@ rs.initiate({
   ]
 });
 EOF
+wait_for_primary shard1_primary 27018 shard1ReplSet
 
-# 3) Initiate shard2 replica set
-echo "Initiate shard2 replica set"
+# 3) Shard2 RS
+echo "⏳ Initiating shard2ReplSet..."
 docker exec -i "$(docker-compose ps -q shard2_primary)" mongosh --port 27018 <<'EOF'
 rs.initiate({
   _id: "shard2ReplSet",
@@ -51,12 +54,18 @@ rs.initiate({
   ]
 });
 EOF
+wait_for_primary shard2_primary 27018 shard2ReplSet
 
-# 4) Wait for mongos before adding shards
-wait_for_mongos
+# 4) Wait for mongos
+echo "⏳ Waiting for mongos..."
+until docker exec -i "$(docker-compose ps -q mongos)" mongosh --quiet \
+    --eval 'db.adminCommand({ ping: 1 })' >/dev/null 2>&1; do
+  sleep 2
+done
+echo "✅ Mongos is up."
 
-# 5) Add shards and enable sharding
-echo "Add shards and enable sharding"
+# 5) Add shards & enable sharding
+echo "⏳ Adding shards & enabling sharding..."
 docker exec -i "$(docker-compose ps -q mongos)" mongosh <<'EOF'
 sh.addShard("shard1ReplSet/shard1_primary:27018,shard1_secondary1:27018,shard1_secondary2:27018");
 sh.addShard("shard2ReplSet/shard2_primary:27018,shard2_secondary1:27018,shard2_secondary2:27018");

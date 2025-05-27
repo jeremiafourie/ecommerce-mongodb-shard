@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
 import yaml
+import sys
 
-# Load docker-compose.yml
-with open("docker-compose.yml") as f:
-    compose = yaml.safe_load(f)
+# 1) Load Compose file
+try:
+    with open("docker-compose.yml") as f:
+        compose = yaml.safe_load(f)
+except FileNotFoundError:
+    print("❌ docker-compose.yml not found.", file=sys.stderr)
+    sys.exit(1)
 
 services = compose.get("services", {})
-# Map each service to a Mermaid node
-mermaid = ["```mermaid", "graph LR"]
-for name in services:
-    mermaid.append(f"    {name}([{name}])")
 
-# Define edges
+# 2) Build Mermaid lines
+mermaid = [
+    "```mermaid",
+    "graph LR",
+    "    Application[\"Application Servers\"]"
+]
+for name in services:
+    mermaid.append(f"    {name}[\"{name}\"]")
+
 edges = [
-    ("Application↘", "mongos"),
+    ("Application", "mongos"),
     ("mongos", "configsvr1"),
     ("mongos", "shard1_primary"),
     ("mongos", "shard2_primary"),
 ]
-# Insert a pseudo Application node for clarity
-mermaid.insert(2, "    Application[\"Application Servers\"]")
 for src, dst in edges:
-    # Normalize names (no spaces)
-    src_n = src.replace(" ", "_").replace("↘", "")
-    dst_n = dst.replace(" ", "_")
-    mermaid.append(f"    {src_n} --> {dst_n}")
+    mermaid.append(f"    {src} --> {dst}")
 
 mermaid.append("```")
 
-# Write to Markdown
+# 3) Write output
 with open("cluster-topology.mmd", "w") as out:
     out.write("\n".join(mermaid))
-print("Rendered cluster-topology.mmd")
+
+print("🎨 Rendered cluster-topology.mmd")
