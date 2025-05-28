@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36 Edg/136.0.0.0" version="27.0.9">
+  <diagram name="Page-1" id="Sl2JQK4CQdyvR31LE54X">
+    <mxGraphModel dx="684" dy="757" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-3" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
+          <mxGeometry x="180" y="350" width="480" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-7" value="MongoDB Cluster" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-3">
+          <mxGeometry x="10" y="10" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="JSFjIQUWvnDwaaQin9jG-3" source="JSFjIQUWvnDwaaQin9jG-14" target="JSFjIQUWvnDwaaQin9jG-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="JSFjIQUWvnDwaaQin9jG-3" source="JSFjIQUWvnDwaaQin9jG-14" target="JSFjIQUWvnDwaaQin9jG-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="JSFjIQUWvnDwaaQin9jG-3" source="JSFjIQUWvnDwaaQin9jG-14" target="JSFjIQUWvnDwaaQin9jG-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-14" value="Mongos Routers" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-3">
+          <mxGeometry x="180" y="10" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-19" value="Shard 2 - Replica Set" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-3">
+          <mxGeometry x="20" y="90" width="125" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-17" value="Primary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-19">
+          <mxGeometry x="35" y="20" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-24" value="Secondary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-19">
+          <mxGeometry x="35" y="95" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-25" value="Secondary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-19">
+          <mxGeometry x="35" y="140" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-26" value="Shard 1 - Replica Set" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-3">
+          <mxGeometry x="177.5" y="90" width="125" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-27" value="Primary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-26">
+          <mxGeometry x="35" y="20" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-28" value="Secondary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-26">
+          <mxGeometry x="35" y="95" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-29" value="Secondary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-26">
+          <mxGeometry x="35" y="140" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-30" value="Config Servers - Replica Set" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-3">
+          <mxGeometry x="330" y="90" width="125" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-31" value="Primary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-30">
+          <mxGeometry x="35" y="20" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-32" value="Secondary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-30">
+          <mxGeometry x="35" y="95" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-33" value="Secondary" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-30">
+          <mxGeometry x="35" y="140" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-4" value="" style="swimlane;startSize=0;" vertex="1" parent="1">
+          <mxGeometry x="305" y="220" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-6" value="TLS over VPC Peering" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-4">
+          <mxGeometry x="55" y="40" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-5" value="Network Security" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-4">
+          <mxGeometry y="10" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-11" value="Application Tier" style="swimlane;whiteSpace=wrap;html=1;startSize=23;" vertex="1" parent="1">
+          <mxGeometry x="305" y="110" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-12" value="Application Servers" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="JSFjIQUWvnDwaaQin9jG-11">
+          <mxGeometry x="55" y="30" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="JSFjIQUWvnDwaaQin9jG-12" target="JSFjIQUWvnDwaaQin9jG-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="JSFjIQUWvnDwaaQin9jG-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JSFjIQUWvnDwaaQin9jG-6" target="JSFjIQUWvnDwaaQin9jG-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

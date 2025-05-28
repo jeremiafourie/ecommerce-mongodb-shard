@@ -125,28 +125,26 @@ services:
   # 6) Seed & Snapshot Container
   # ───────────────────────────────
   data-loader:
-    image: python:3.10-slim
+    build: ./data_loader
     depends_on:
       - mongos
-    volumes:
-      - ./scripts/data_loader.py:/app/data_loader.py:ro
-    working_dir: /app
-    command: ["python", "data_loader.py"]
     networks:
       - mongo-cluster
+    profiles:
+      - load-data
 
   # ───────────────────────────────
   # 7) Fault-Injection & Chaos Testing
   # ───────────────────────────────
   chaos-engine:
-    image: mongo:6.0
+    build: ./chaos_engine
     cap_add:
       - NET_ADMIN
     depends_on:
       - mongos
     volumes:
-      - ./scripts/chaos_engine.sh:/scripts/chaos_engine.sh:ro
-    command: ["sh", "/scripts/chaos_engine.sh"]
+      - ./chaos_engine/chaos_engine.sh:/scripts/chaos_engine.sh:ro
+    command: ["bash", "/scripts/chaos_engine.sh"]
     networks:
       - mongo-cluster
 
